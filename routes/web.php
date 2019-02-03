@@ -5,6 +5,7 @@ if (app()->environment('local')) {
 }
 
 Route::post('auth/login', \App\Http\Controllers\Auth\LoginHandler::class);
+Route::get('auth/logout', \App\Http\Controllers\Auth\LogoutHandler::class);
 Route::post('auth/register', \App\Http\Controllers\Auth\RegisterHandler::class);
 
 Route::get('{route}', function () {
