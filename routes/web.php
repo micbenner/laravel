@@ -1,16 +1,12 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+if (app()->environment('local')) {
+    Route::get('login/{id}', \App\Http\Controllers\Auth\LocalLoginHandler::class);
+}
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('auth/login', \App\Http\Controllers\Auth\LoginHandler::class);
+Route::post('auth/register', \App\Http\Controllers\Auth\RegisterHandler::class);
+
+Route::get('{route}', function () {
+    return view('vue');
+})->where('route', '(.*)');
