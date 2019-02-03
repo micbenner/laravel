@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Api\Auth\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Presenters\LoggedPresenter;
-use http\Env\Request;
+use Illuminate\Http\Request;
 use Laravel\Passport\ApiTokenCookieFactory;
 
 class LocalLoginHandler extends Controller

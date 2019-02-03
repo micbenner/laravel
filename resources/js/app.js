@@ -1,33 +1,82 @@
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import App from './app/App';
+import extractMeta from './handlers/extractMeta';
+import router from './handlers/router';
+import store from './store/store';
+import Page from './handlers/page';
+import Vue from 'vue';
 
-require('./bootstrap');
+router.beforeEach((to, from, next) => {
+    let meta = extractMeta(to);
 
-window.Vue = require('vue');
+    // Once the user is authed
+    Promise.all([store.state.logged.loginPromise])
+        .then(() => {
+            if (store.getters['logged/isLoggedIn']) {
+                if (meta.auth === false) {
+                    next({
+                        path: '/'
+                    });
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+                    return;
+                }
+            }
+            else {
+                if (meta.auth === true) {
+                    next({
+                        name: 'auth.login'
+                    });
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+                    return;
+                }
+            }
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+            next();
+        });
+});
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+store.dispatch('logged/startLogin');
 
-const app = new Vue({
-    el: '#app'
+new Vue({
+    el: '#app',
+    router: router,
+    store: store,
+
+    components: {
+        App,
+    },
+
+    template: `<div><app></app></div>`,
+
+    beforeCreate() {
+        this.$router.onReady(() => {
+            Page.title(this.$route.meta.title);
+        });
+
+        this.$router.beforeEach((to, from, next) => {
+            this.$router.from = from;
+            this.$router.to = to;
+
+            /* vue-progress stuff
+            if (to.meta.progress !== undefined) {
+                let meta = to.meta.progress;
+                this.$Progress.parseMeta(meta);
+            }
+
+            this.$Progress.start();
+            this.$Progress.increase(10);*/
+
+            next();
+        });
+
+        this.$router.afterEach((to, from) => {
+            this.$router.to = null;
+            Page.title(this.$route.meta.title);
+            //this.$Progress.finish();
+        });
+    },
+
+    created() {
+        //this.$Progress.finish();
+    },
 });
