@@ -1,10 +1,30 @@
-
 import App from './app/App';
+import BootstrapVue from 'bootstrap-vue';
 import extractMeta from './handlers/extractMeta';
 import router from './handlers/router';
 import store from './store/store';
 import Page from './handlers/page';
 import Vue from 'vue';
+import VueProgressBar from 'vue-progressbar';
+
+/*
+|--------------------------------------------------------------------------
+| Register any Vue add-ons that aren't better suited elsewhere
+|--------------------------------------------------------------------------
+*/
+
+Vue.use(BootstrapVue);
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+});
+
+/*
+|--------------------------------------------------------------------------
+| Register route guards - you may need to adjust extractMeta as well
+|--------------------------------------------------------------------------
+*/
 
 router.beforeEach((to, from, next) => {
     let meta = extractMeta(to);
@@ -35,7 +55,19 @@ router.beforeEach((to, from, next) => {
         });
 });
 
+/*
+|--------------------------------------------------------------------------
+| Fire preload events...
+|--------------------------------------------------------------------------
+*/
+
 store.dispatch('logged/startLogin');
+
+/*
+|--------------------------------------------------------------------------
+| Set up the Vue application
+|--------------------------------------------------------------------------
+*/
 
 new Vue({
     el: '#app',
@@ -50,6 +82,9 @@ new Vue({
 
     beforeCreate() {
         this.$router.onReady(() => {
+            this.$Progress.start();
+            this.$Progress.increase(10);
+
             Page.title(this.$route.meta.title);
         });
 
@@ -57,14 +92,13 @@ new Vue({
             this.$router.from = from;
             this.$router.to = to;
 
-            /* vue-progress stuff
             if (to.meta.progress !== undefined) {
                 let meta = to.meta.progress;
                 this.$Progress.parseMeta(meta);
             }
 
             this.$Progress.start();
-            this.$Progress.increase(10);*/
+            this.$Progress.increase(10);
 
             next();
         });
@@ -72,11 +106,11 @@ new Vue({
         this.$router.afterEach((to, from) => {
             this.$router.to = null;
             Page.title(this.$route.meta.title);
-            //this.$Progress.finish();
+            this.$Progress.finish();
         });
     },
 
     created() {
-        //this.$Progress.finish();
+        this.$Progress.finish();
     },
 });
