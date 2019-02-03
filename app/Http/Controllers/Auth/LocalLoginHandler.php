@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Api\Auth\Response;
+use App\Domain\Users\User;
 use App\Http\Controllers\Controller;
 use App\Http\Presenters\LoggedPresenter;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laravel\Passport\ApiTokenCookieFactory;
 
 class LocalLoginHandler extends Controller
@@ -20,6 +21,10 @@ class LocalLoginHandler extends Controller
     public function __invoke(Request $request, int $id)
     {
         $user = \Auth::onceUsingId($id);
+
+        if (!$user) {
+            return 'User not found';
+        }
 
         $response = new Response();
         $response->setContent(LoggedPresenter::make($user)->toArray() + ['csrf' => $request->session()->token()]);

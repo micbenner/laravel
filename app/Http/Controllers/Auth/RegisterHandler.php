@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Domain\Auth\Models\User;
+use App\Domain\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\ApiTokenCookieFactory;
@@ -31,7 +31,7 @@ class RegisterHandler extends LoginHandler
 
     /**
      * @param array $data
-     * @return \App\Domain\Auth\Models\User
+     * @return \App\Domain\Users\User
      */
     protected function create(array $data): User
     {

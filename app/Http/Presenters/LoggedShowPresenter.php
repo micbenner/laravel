@@ -5,23 +5,17 @@ namespace App\Http\Presenters;
 use App\Presentation\Builder;
 use App\Presentation\ModelPresenter;
 
-class UserPresenter extends ModelPresenter
+class LoggedShowPresenter extends ModelPresenter
 {
-    /**
-     * @var string
-     */
-    protected $dataKey = 'user';
-
     /**
      * Define how to turn the model into JSON
      *
      * @param \App\Presentation\Builder $b
-     * @param \App\Domain\Users\User $model
+     * @param \App\Domain\Users\LoggedShowData $model
      * @return \App\Presentation\Builder
      */
     public function build(Builder $b, $model): Builder
     {
-        return $b->add('id', $model->getKey())
-                 ->add('name', $model->getName());
+        return $b->add('user', LoggedPresenter::flat($model->getUser()));
     }
 }

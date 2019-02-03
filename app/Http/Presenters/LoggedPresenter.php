@@ -11,7 +11,7 @@ class LoggedPresenter extends UserPresenter
      * Define how to turn the model into JSON
      *
      * @param \App\Presentation\Builder $b
-     * @param \App\Domain\Auth\Models\User $model
+     * @param \App\Domain\Users\User $model
      * @return \App\Presentation\Builder
      */
     public function build(Builder $b, $model): Builder

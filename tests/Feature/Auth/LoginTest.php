@@ -13,7 +13,7 @@ class LoginTest extends FeatureTestCase
 
     public function testCanLogin()
     {
-        factory(\App\Domain\Auth\Models\User::class)->create([
+        factory(\App\Domain\Users\User::class)->create([
             'email'    => 'test@test.com',
             'password' => bcrypt('secret'),
         ]);
@@ -23,11 +23,15 @@ class LoginTest extends FeatureTestCase
             'password' => 'secret',
         ]);
 
+        $response->dump();
+
         $response->assertJsonStructure([
-            'id',
-            'name',
-            'email',
-            'csrf',
+            'user' => [
+                'id',
+                'name',
+                'email',
+                'csrf',
+            ],
         ]);
 
         $response->assertCookie('laravel_token');

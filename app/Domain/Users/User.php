@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Auth\Models;
+namespace App\Domain\Users;
 
 use App\Presentation\Presentable;
 use Illuminate\Notifications\Notifiable;

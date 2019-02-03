@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Domain\Auth\Models\User;
+use App\Domain\Users\LoggedDataFetcher;
+use App\Domain\Users\User;
 use App\Http\Controllers\Controller;
 use App\Http\Presenters\LoggedPresenter;
+use App\Http\Presenters\LoggedShowPresenter;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,14 +16,13 @@ class LoginHandler extends Controller
 {
     use AuthenticatesUsers;
 
-    /**
-     * @var \Laravel\Passport\ApiTokenCookieFactory
-     */
     private $cookieFactory;
+    private $loggedDataFetcher;
 
-    public function __construct(ApiTokenCookieFactory $cookieFactory)
+    public function __construct(ApiTokenCookieFactory $cookieFactory, LoggedDataFetcher $loggedDataFetcher)
     {
-        $this->cookieFactory = $cookieFactory;
+        $this->cookieFactory     = $cookieFactory;
+        $this->loggedDataFetcher = $loggedDataFetcher;
     }
 
     public function __invoke(Request $request)
@@ -34,7 +35,7 @@ class LoginHandler extends Controller
         $response = new Response();
 
         $response->setContent(
-            LoggedPresenter::flat($user)->toArray()
+            LoggedShowPresenter::flat($this->loggedDataFetcher->show($user))->toArray()
             + ['csrf' => $request->session()->token()]
         );
 
