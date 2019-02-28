@@ -3,7 +3,7 @@ import BootstrapVue from 'bootstrap-vue';
 import extractMeta from './handlers/extractMeta';
 import router from './handlers/router';
 import store from './store';
-import Page from './handlers/page';
+import page from './handlers/page';
 import Vue from 'vue';
 import VueProgressBar from 'vue-progressbar';
 
@@ -85,7 +85,7 @@ new Vue({
             this.$Progress.start();
             this.$Progress.increase(10);
 
-            Page.title(this.$route.meta.title);
+            page.title(this.$route.meta.title);
         });
 
         this.$router.beforeEach((to, from, next) => {
@@ -105,7 +105,7 @@ new Vue({
 
         this.$router.afterEach((to, from) => {
             this.$router.to = null;
-            Page.title(this.$route.meta.title);
+            page.title(this.$route.meta.title);
             this.$Progress.finish();
         });
     },
