@@ -2,7 +2,7 @@ import App from './app/App';
 import BootstrapVue from 'bootstrap-vue';
 import extractMeta from './handlers/extractMeta';
 import router from './handlers/router';
-import store from './store/store';
+import store from './store';
 import Page from './handlers/page';
 import Vue from 'vue';
 import VueProgressBar from 'vue-progressbar';
@@ -71,8 +71,8 @@ store.dispatch('logged/startLogin');
 
 new Vue({
     el: '#app',
-    router: router,
-    store: store,
+    router,
+    store,
 
     components: {
         App,
