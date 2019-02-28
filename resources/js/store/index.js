@@ -1,3 +1,11 @@
-import store from './store';
+import Vue from 'vue';
+import Vuex from 'vuex';
+import logged from './logged';
 
-export default store;
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+    modules: {
+        logged,
+    },
+});
