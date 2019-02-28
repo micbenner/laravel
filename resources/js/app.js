@@ -1,17 +1,20 @@
 import App from './app/App';
-import BootstrapVue from 'bootstrap-vue';
-import extractMeta from './handlers/extractMeta';
-import router from './handlers/router';
-import store from './store';
-import page from './handlers/page';
 import Vue from 'vue';
-import VueProgressBar from 'vue-progressbar';
+
+import store from './store';
+
+import extractMeta from './handlers/extractMeta';
+import page from './handlers/page';
+import router from './handlers/router';
 
 /*
 |--------------------------------------------------------------------------
 | Register any Vue add-ons that aren't better suited elsewhere
 |--------------------------------------------------------------------------
 */
+
+import BootstrapVue from 'bootstrap-vue';
+import VueProgressBar from 'vue-progressbar';
 
 Vue.use(BootstrapVue);
 Vue.use(VueProgressBar, {
