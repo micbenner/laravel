@@ -27,3 +27,9 @@ An opinionated wrap for Laravel.
 `php artisan passport:install`
 
 `npm install`
+
+## Updating this repository
+
+`git pull upstream v5.8.3`
+
+Where v5.8.3 is the tag of the latest Laravel version

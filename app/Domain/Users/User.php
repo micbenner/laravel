@@ -15,6 +15,10 @@ class User extends Authenticatable implements Presentable
 
     protected $visible = [];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     public function getEmail(): string
     {
         return $this->attributes['email'];
