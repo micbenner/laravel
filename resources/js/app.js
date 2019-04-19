@@ -1,20 +1,17 @@
-import App from './app/App';
-import Vue from 'vue';
-
-import store from './store';
-
+import App from './views/App';
+import BootstrapVue from 'bootstrap-vue';
 import extractMeta from './handlers/extractMeta';
-import page from './handlers/page';
 import router from './handlers/router';
+import store from './store';
+import Page from './handlers/page';
+import Vue from 'vue';
+import VueProgressBar from 'vue-progressbar';
 
 /*
 |--------------------------------------------------------------------------
 | Register any Vue add-ons that aren't better suited elsewhere
 |--------------------------------------------------------------------------
 */
-
-import BootstrapVue from 'bootstrap-vue';
-import VueProgressBar from 'vue-progressbar';
 
 Vue.use(BootstrapVue);
 Vue.use(VueProgressBar, {
@@ -33,29 +30,30 @@ router.beforeEach((to, from, next) => {
     let meta = extractMeta(to);
 
     // Once the user is authed
-    Promise.all([store.state.logged.loginPromise])
-        .then(() => {
-            if (store.getters['logged/isLoggedIn']) {
-                if (meta.auth === false) {
-                    next({
-                        path: '/'
-                    });
+    Promise.all([
+        store.getters['auth/getLoginPromise'],
+    ])
+           .then(() => {
+               if (store.getters['auth/isLoggedIn']) {
+                   if (meta.auth === false) {
+                       next({
+                           path: '/'
+                       });
 
-                    return;
-                }
-            }
-            else {
-                if (meta.auth === true) {
-                    next({
-                        name: 'auth.login'
-                    });
+                       return;
+                   }
+               } else {
+                   if (meta.auth === true) {
+                       next({
+                           name: 'auth.login'
+                       });
 
-                    return;
-                }
-            }
+                       return;
+                   }
+               }
 
-            next();
-        });
+               next();
+           });
 });
 
 /*
@@ -64,7 +62,7 @@ router.beforeEach((to, from, next) => {
 |--------------------------------------------------------------------------
 */
 
-store.dispatch('logged/startLogin');
+store.dispatch('auth/startLogin');
 
 /*
 |--------------------------------------------------------------------------
@@ -74,8 +72,8 @@ store.dispatch('logged/startLogin');
 
 new Vue({
     el: '#app',
-    router,
-    store,
+    router: router,
+    store: store,
 
     components: {
         App,
@@ -88,7 +86,7 @@ new Vue({
             this.$Progress.start();
             this.$Progress.increase(10);
 
-            page.title(this.$route.meta.title);
+            Page.title(this.$route.meta.title);
         });
 
         this.$router.beforeEach((to, from, next) => {
@@ -108,7 +106,7 @@ new Vue({
 
         this.$router.afterEach((to, from) => {
             this.$router.to = null;
-            page.title(this.$route.meta.title);
+            Page.title(this.$route.meta.title);
             this.$Progress.finish();
         });
     },

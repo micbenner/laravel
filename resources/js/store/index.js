@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import logged from './logged';
+import auth from './auth';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        logged,
+        auth,
     },
 });
