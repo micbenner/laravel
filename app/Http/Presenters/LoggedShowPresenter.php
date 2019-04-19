@@ -2,17 +2,22 @@
 
 namespace App\Http\Presenters;
 
-use App\Presentation\Builder;
-use App\Presentation\ModelPresenter;
+use Micbenner\ModelPresenter\Builder;
+use Micbenner\ModelPresenter\Presenter;
 
-class LoggedShowPresenter extends ModelPresenter
+class LoggedShowPresenter extends Presenter
 {
+    public function dataKey(): string
+    {
+        throw new \Exception('Can only use '. get_class($this) . ' with flat()');
+    }
+
     /**
      * Define how to turn the model into JSON
      *
-     * @param \App\Presentation\Builder $b
+     * @param \Micbenner\ModelPresenter\Builder $b
      * @param \App\Domain\Users\LoggedShowData $model
-     * @return \App\Presentation\Builder
+     * @return \Micbenner\ModelPresenter\Builder
      */
     public function build(Builder $b, $model): Builder
     {

@@ -2,10 +2,10 @@
 
 namespace App\Domain\Users;
 
-use App\Presentation\Presentable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Micbenner\ModelPresenter\Presentable;
 
 class User extends Authenticatable implements Presentable
 {
@@ -22,6 +22,11 @@ class User extends Authenticatable implements Presentable
     public function getEmail(): string
     {
         return $this->attributes['email'];
+    }
+
+    public function getId(): string
+    {
+        return $this->attributes['id'];
     }
 
     public function getName(): string

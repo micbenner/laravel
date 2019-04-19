@@ -2,9 +2,9 @@
 
 namespace App\Domain;
 
-use App\Presentation\Presentable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Micbenner\ModelPresenter\Presentable;
 
 class AppModel extends Model implements Presentable
 {

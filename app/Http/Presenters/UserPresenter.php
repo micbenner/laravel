@@ -2,26 +2,26 @@
 
 namespace App\Http\Presenters;
 
-use App\Presentation\Builder;
-use App\Presentation\ModelPresenter;
+use Micbenner\ModelPresenter\Builder;
+use Micbenner\ModelPresenter\Presenter;
 
-class UserPresenter extends ModelPresenter
+class UserPresenter extends Presenter
 {
-    /**
-     * @var string
-     */
-    protected $dataKey = 'user';
+    public function dataKey(): string
+    {
+        return 'user';
+    }
 
     /**
-     * Define how to turn the model into JSON
+     * Build the model attributes
      *
-     * @param \App\Presentation\Builder $b
+     * @param Builder $b
      * @param \App\Domain\Users\User $model
-     * @return \App\Presentation\Builder
+     * @return Builder
      */
     public function build(Builder $b, $model): Builder
     {
-        return $b->add('id', $model->getKey())
+        return $b->add('id', $model->getId())
                  ->add('name', $model->getName());
     }
 }

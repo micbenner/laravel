@@ -2,17 +2,16 @@
 
 namespace App\Http\Presenters;
 
-use App\Presentation\Builder;
-use Carbon\Carbon;
+use Micbenner\ModelPresenter\Builder;
 
 class LoggedPresenter extends UserPresenter
 {
     /**
      * Define how to turn the model into JSON
      *
-     * @param \App\Presentation\Builder $b
+     * @param \Micbenner\ModelPresenter\Builder $b
      * @param \App\Domain\Users\User $model
-     * @return \App\Presentation\Builder
+     * @return \Micbenner\ModelPresenter\Builder
      */
     public function build(Builder $b, $model): Builder
     {

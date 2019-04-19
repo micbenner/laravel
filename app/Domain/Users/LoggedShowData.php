@@ -2,7 +2,7 @@
 
 namespace App\Domain\Users;
 
-use App\Presentation\Presentable;
+use Micbenner\ModelPresenter\Presentable;
 
 class LoggedShowData implements Presentable
 {
