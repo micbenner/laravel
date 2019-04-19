@@ -23,15 +23,13 @@ class LoginTest extends FeatureTestCase
             'password' => 'secret',
         ]);
 
-        $response->dump();
-
         $response->assertJsonStructure([
             'user' => [
                 'id',
                 'name',
                 'email',
-                'csrf',
             ],
+            'csrf',
         ]);
 
         $response->assertCookie('laravel_token');
